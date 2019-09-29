@@ -9,7 +9,7 @@ export function HooksExpand({ height, children }) {
   useEffect(() => {
     if (hasUserUnwrapped || isWrapped || !contentRef.current) return
     if (contentRef.current.clientHeight > height) setIsWrapped(true)
-  }, [contentRef, hasUserUnwrapped, height, isWrapped])
+  }, [contentRef.current, hasUserUnwrapped, height, isWrapped])
 
   function handleExpand() {
     setIsWrapped(false)
