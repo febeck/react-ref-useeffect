@@ -1,15 +1,23 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ReadMore } from './ReadMore'
 
 export function HooksExpand({ height, children }) {
-  const contentRef = useRef()
   const [isWrapped, setIsWrapped] = useState(false)
   const [hasUserUnwrapped, setHasUserUnwrapped] = useState(false)
 
+  const [contentHeight, setContentHeight] = useState()
+
+  const contentRef = (node) => {
+    if (node !== null) {
+      setContentHeight(node.getBoundingClientRect().height);
+    }
+  }
+
   useEffect(() => {
-    if (hasUserUnwrapped || isWrapped || !contentRef.current) return
-    if (contentRef.current.clientHeight > height) setIsWrapped(true)
-  }, [contentRef.current, hasUserUnwrapped, height, isWrapped])
+    if (hasUserUnwrapped || isWrapped) return
+    setIsWrapped(contentHeight > height)
+  }, [contentHeight, hasUserUnwrapped, height, isWrapped])
+
 
   function handleExpand() {
     setIsWrapped(false)
